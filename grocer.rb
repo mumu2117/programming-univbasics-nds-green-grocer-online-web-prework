@@ -20,10 +20,20 @@ def consolidate_cart(cart)
 end
 
 def apply_coupons(cart, coupons)
-  # Consult README for inputs and outputs
-  #
-  # REMEMBER: This method **should** update cart
-end
+  coupons.each do |coupon|
+    if cart.keys.include?(coupon[:item])
+      if cart[coupon[:item]][:count] >= coupon[:num]
+        cart[coupon[:item]][:count] -= coupon[:num]
+        new_item = "#{coupon[:item]} W/COUPON"
+        if cart.keys.include?(new_item)
+          cart[new_item][:count] += 1
+        else
+          cart[new_item] = {:price => coupon[:cost], :count => 1, :clearance => cart[coupon[:item]][:clearance]}
+        end
+      end
+    end
+  end
+  cart
 
 def apply_clearance(cart)
   # Consult README for inputs and outputs
